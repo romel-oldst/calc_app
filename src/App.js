@@ -2,70 +2,31 @@ import { useEffect, useReducer } from "react";
 import "./index.css";
 import NumberButton from "./components/NumberButton";
 import OperatorButton from "./components/OperatorButton";
+import { ACTION_TYPES } from "./actions/calcActionTypes";
+import { calcReducer, initialState } from "./reducers/calcReducer";
 
-const initialState = {
-  isDarkMode: false,
-  result: 0,
-  firstOperand: 0,
-  operation: "",
-};
-function calcReducer(state, action) {
-  // Each value of initialState should have a corresponding case
-  // in the switch statement
-  switch (action.type) {
-    case "TOGGLE_DARK_MODE":
-      return {
-        ...state,
-        isDarkMode: action.payload,
-      }
-    case "SET_RESULT":
-      return {
-        ...state,
-        result: action.payload,
-      }
-    case "SET_FIRST_OPERAND":
-      return {
-        ...state,
-        firstOperand: action.payload,
-      }
-    case "SET_OPERATION":
-      return {
-        ...state,
-        operation: action.payload,
-      }
-    case "CLEAR_DATA":
-      return {
-        ...state,
-        firstOperand: 0,
-        operation: "",
-        result: 0,
-      }
-    default:
-      return state;
-  }
-}
 
 export default function App() {
   const [state, dispatch] = useReducer(calcReducer, initialState);
 
   const handleDarkmodeCheckboxChange = (event) => {
-    dispatch({type: "TOGGLE_DARK_MODE", payload: event.target.checked});
+    dispatch({type: ACTION_TYPES.TOGGLE_DARK_MODE, payload: event.target.checked});
   };
 
   const handleNumberClick = (number) => {
     if (number !== "." || !state.result.toString().includes(".")) {
       if (Number(state.result) === 0) {
-        dispatch({type: "SET_RESULT", payload: `${number}`});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: `${number}`});
       } else {
-        dispatch({type: "SET_RESULT", payload: `${state.result}${number}`});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: `${state.result}${number}`});
       }
     }
   };
 
   const handleOperatorClick = (op) => {
-    dispatch({type: "SET_FIRST_OPERAND", payload: state.result});
-    dispatch({type: "SET_OPERATION", payload: op});
-    dispatch({type: "SET_RESULT", payload: 0});
+    dispatch({type: ACTION_TYPES.SET_FIRST_OPERAND, payload: state.result});
+    dispatch({type: ACTION_TYPES.SET_OPERATION, payload: op});
+    dispatch({type: ACTION_TYPES.SET_RESULT, payload: 0});
   };
 
   const handleEqualButtonClick = () => {
@@ -76,22 +37,22 @@ export default function App() {
     switch (state.operation) {
       case "+":
         newResult = firstOp + secondOp;
-        dispatch({type: "SET_RESULT", payload: newResult});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: newResult});
         break;
 
       case "-":
         newResult = firstOp - secondOp;
-        dispatch({type: "SET_RESULT", payload: newResult});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: newResult});
         break;
 
       case "x":
         newResult = firstOp * secondOp;
-        dispatch({type: "SET_RESULT", payload: newResult});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: newResult});
         break;
 
       case "/":
         newResult = firstOp / secondOp;
-        dispatch({type: "SET_RESULT", payload: newResult});
+        dispatch({type: ACTION_TYPES.SET_RESULT, payload: newResult});
         break;
 
       default:
@@ -100,7 +61,7 @@ export default function App() {
   };
 
   const handleClearData = () => {
-    dispatch({type: "CLEAR_DATA"});
+    dispatch({type: ACTION_TYPES.CLEAR_DATA});
   };
 
   useEffect(() => {
