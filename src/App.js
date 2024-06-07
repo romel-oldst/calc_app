@@ -1,9 +1,86 @@
 import { useEffect, useReducer } from "react";
 import "./index.css";
-import NumberButton from "./components/NumberButton";
-import OperatorButton from "./components/OperatorButton";
+import { NumberButton, OperatorButton } from "./components/index";
 import { ACTION_TYPES } from "./actions/calcActionTypes";
 import { calcReducer, initialState } from "./reducers/calcReducer";
+
+const buttonData = [
+  {
+    label: "+",
+    value: "+",
+    type: "operator",
+  },
+  {
+    label: "-",
+    value: "-",
+    type: "operator",
+  },
+  {
+    label: "×",
+    value: "x",
+    type: "operator",
+  },
+  {
+    label: "÷",
+    value: "/",
+    type: "operator",
+  },
+  {
+    label: "7",
+    value: 7,
+    type: "number",
+  },
+  {
+    label: "8",
+    value: 8,
+    type: "number",
+  },
+  {
+    label: "9",
+    value: 9,
+    type: "number",
+  },
+  {
+    label: "4",
+    value: 4,
+    type: "number",
+  },
+  {
+    label: "5",
+    value: 5,
+    type: "number",
+  },
+  {
+    label: "6",
+    value: 6,
+    type: "number",
+  },
+  {
+    label: "1",
+    value: 1,
+    type: "number",
+  },
+  {
+    label: "2",
+    value: 2,
+    type: "number",
+  },
+  {
+    label: "3",
+    value: 3,
+    type: "number",
+  },
+  {
+    label: "0",
+    value: 0,
+    type: "number",
+  },
+  {
+    label: ".",
+    value: ".",
+    type: "number",
+  },
+];
 
 export default function App() {
   const [state, dispatch] = useReducer(calcReducer, initialState);
@@ -79,7 +156,7 @@ export default function App() {
         <input
           type="checkbox"
           checked={state.isDarkMode}
-          onChange={(event) => handleDarkmodeCheckboxChange(event)}
+          onChange={handleDarkmodeCheckboxChange}
         />
         <span className="slider round"></span>
       </label>
@@ -96,81 +173,21 @@ export default function App() {
             state.isDarkMode ? "calculator__keys__dark" : ""
           }`}
         >
-          <OperatorButton
-            label="+"
-            onClick={() => handleOperatorClick("+")}
-            isDarkMode={state.isDarkMode}
-          />
-          <OperatorButton
-            label="-"
-            onClick={() => handleOperatorClick("-")}
-            isDarkMode={state.isDarkMode}
-          />
-          <OperatorButton
-            label="&times;"
-            onClick={() => handleOperatorClick("x")}
-            isDarkMode={state.isDarkMode}
-          />
-          <OperatorButton
-            label="÷"
-            onClick={() => handleOperatorClick("/")}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="7"
-            onClick={() => handleNumberClick(7)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="8"
-            onClick={() => handleNumberClick(8)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="9"
-            onClick={() => handleNumberClick(9)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="4"
-            onClick={() => handleNumberClick(4)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="5"
-            onClick={() => handleNumberClick(5)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="6"
-            onClick={() => handleNumberClick(6)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="1"
-            onClick={() => handleNumberClick(1)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="2"
-            onClick={() => handleNumberClick(2)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="3"
-            onClick={() => handleNumberClick(3)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="0"
-            onClick={() => handleNumberClick(0)}
-            isDarkMode={state.isDarkMode}
-          />
-          <NumberButton
-            label="."
-            onClick={() => handleNumberClick(".")}
-            isDarkMode={state.isDarkMode}
-          />
+          {buttonData.map((button) =>
+            button.type === "operator" ? (
+              <OperatorButton
+                label={button.label}
+                onClick={() => handleOperatorClick(button.value)}
+                isDarkMode={state.isDarkMode}
+              />
+            ) : (
+              <NumberButton
+                label={button.label}
+                onClick={() => handleNumberClick(button.value)}
+                isDarkMode={state.isDarkMode}
+              />
+            )
+          )}
           <NumberButton
             label="AC"
             onClick={() => handleClearData()}
@@ -187,3 +204,5 @@ export default function App() {
     </div>
   );
 }
+
+// export the components to a separate index file
