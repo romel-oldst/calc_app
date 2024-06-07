@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from "react";
 import "./index.css";
-import NumberButton from "./components/NumberButton";
-import OperatorButton from "./components/OperatorButton";
+import { NumberButton, OperatorButton } from "./components/index";
 import { ACTION_TYPES } from "./actions/calcActionTypes";
 import { calcReducer, initialState } from "./reducers/calcReducer";
 
@@ -205,3 +204,5 @@ export default function App() {
     </div>
   );
 }
+
+// export the components to a separate index file
