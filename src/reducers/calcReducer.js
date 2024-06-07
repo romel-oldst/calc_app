@@ -15,30 +15,30 @@ export const calcReducer = (state, action) => {
       return {
         ...state,
         isDarkMode: action.payload,
-      }
+      };
     case ACTION_TYPES.SET_RESULT:
       return {
         ...state,
         result: action.payload,
-      }
+      };
     case ACTION_TYPES.SET_FIRST_OPERAND:
       return {
         ...state,
         firstOperand: action.payload,
-      }
+      };
     case ACTION_TYPES.SET_OPERATION:
       return {
         ...state,
         operation: action.payload,
-      }
+      };
     case ACTION_TYPES.CLEAR_DATA:
       return {
         ...state,
         firstOperand: 0,
         operation: "",
         result: 0,
-      }
+      };
     default:
       return state;
   }
-}
+};
