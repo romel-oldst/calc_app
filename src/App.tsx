@@ -1,8 +1,8 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import "./index.css";
-import { NumberButton, OperatorButton } from "./components/index";
+import { NumberButton, OperatorButton } from "./components";
 import { ACTION_TYPES } from "./actions/calcActionTypes";
-import { calcReducer, initialState } from "./reducers/calcReducer";
+import { calcReducer, initialState, ActionType } from "./reducers/calcReducer";
 
 const buttonData = [
   {
@@ -85,30 +85,31 @@ const buttonData = [
 export default function App() {
   const [state, dispatch] = useReducer(calcReducer, initialState);
 
-  const handleDarkmodeCheckboxChange = (event) => {
+  const handleDarkmodeCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: ACTION_TYPES.TOGGLE_DARK_MODE,
       payload: event.target.checked,
-    });
+    } as ActionType);
   };
 
-  const handleNumberClick = (number) => {
-    if (number !== "." || !state.result.toString().includes(".")) {
+  const handleNumberClick = (number: string | number) => {
+    const numberStr = number.toString();
+    if (numberStr !== "." || !state.result.toString().includes(".")) {
       if (Number(state.result) === 0) {
-        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: `${number}` });
+        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: `${number}` } as ActionType);
       } else {
         dispatch({
           type: ACTION_TYPES.SET_RESULT,
-          payload: `${state.result}${number}`,
-        });
+          payload: `${state.result}${numberStr}`,
+        } as ActionType);
       }
     }
   };
 
-  const handleOperatorClick = (op) => {
-    dispatch({ type: ACTION_TYPES.SET_FIRST_OPERAND, payload: state.result });
-    dispatch({ type: ACTION_TYPES.SET_OPERATION, payload: op });
-    dispatch({ type: ACTION_TYPES.SET_RESULT, payload: 0 });
+  const handleOperatorClick = (op: string | number) => {
+    dispatch({ type: ACTION_TYPES.SET_FIRST_OPERAND, payload: state.result } as ActionType);
+    dispatch({ type: ACTION_TYPES.SET_OPERATION, payload: op } as ActionType);
+    dispatch({ type: ACTION_TYPES.SET_RESULT, payload: 0 } as ActionType);
   };
 
   const handleEqualButtonClick = () => {
@@ -119,22 +120,22 @@ export default function App() {
     switch (state.operation) {
       case "+":
         newResult = firstOp + secondOp;
-        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult });
+        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult } as ActionType);
         break;
 
       case "-":
         newResult = firstOp - secondOp;
-        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult });
+        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult } as ActionType);
         break;
 
       case "x":
         newResult = firstOp * secondOp;
-        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult });
+        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult } as ActionType);
         break;
 
       case "/":
         newResult = firstOp / secondOp;
-        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult });
+        dispatch({ type: ACTION_TYPES.SET_RESULT, payload: newResult } as ActionType);
         break;
 
       default:
@@ -143,7 +144,7 @@ export default function App() {
   };
 
   const handleClearData = () => {
-    dispatch({ type: ACTION_TYPES.CLEAR_DATA });
+    dispatch({ type: ACTION_TYPES.CLEAR_DATA } as ActionType);
   };
 
   useEffect(() => {
